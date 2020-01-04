@@ -74,3 +74,30 @@ fn test_zero_size() {
         "Cannot construct size 0 vector (type ()) from bytes."
     );
 }
+
+#[test]
+fn test_vec_u64_roundtrip() {
+    let v: Vec<u64> = vec![0, 1, 2, 3, 5 << 31, 3 << 60];
+    let bytes: Vec<u8> = to_byte_vec(v.clone());
+    let result: Vec<u64> = from_byte_vec(bytes).unwrap();
+
+    assert_eq!(v, result);
+}
+
+#[test]
+fn test_vec_i64_roundtrip() {
+    let v: Vec<i64> = vec![0, 1, 2, -3, -5 << 31, 3 << 60];
+    let bytes: Vec<u8> = to_byte_vec(v.clone());
+    let result: Vec<i64> = from_byte_vec(bytes).unwrap();
+
+    assert_eq!(v, result);
+}
+
+#[test]
+fn test_vec_f32_roundtrip() {
+    let v: Vec<f32> = vec![0., 1., 2., -3., -5.25e9, 8.4e-9];
+    let bytes: Vec<u8> = to_byte_vec(v.clone());
+    let result: Vec<f32> = from_byte_vec(bytes).unwrap();
+
+    assert_eq!(v, result);
+}
